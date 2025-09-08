@@ -1,31 +1,23 @@
 package com.nit.controller;
-
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import com.nit.entity.Student;
 import com.nit.service.StudentService;
-
 import jakarta.validation.Valid;
-
 @Controller
 @RequestMapping("/students")
 public class StudentController {
-
  private final StudentService service;
-
  public StudentController(StudentService service) { this.service = service; }
-
  @GetMapping
  public String list(
          @RequestParam(defaultValue = "") String q,
          @PageableDefault(size = 6, sort = "name", direction = Sort.Direction.ASC) Pageable pageable,
          Model model) {
-
      Page<Student> page = service.search(q, pageable);
      model.addAttribute("page", page);
      model.addAttribute("q", q);
